@@ -16,4 +16,10 @@ locals {
       "ap-northeast-2a"
     ]
   }
+
+  # RDS
+  subnet_group_name = "koo-blog-db-subnet-group"
+  allocated_storage = 20
+  engine_version = "8.0.35"
+  instance_class = "db.t3.micro"
 }
