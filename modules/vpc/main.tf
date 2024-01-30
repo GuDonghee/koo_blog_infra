@@ -1,4 +1,4 @@
-resource "aws_vpc" "this" {
+resource "aws_vpc" "koo-blog" {
   cidr_block = var.vpc_cidr
 
   tags = {
@@ -9,7 +9,7 @@ resource "aws_vpc" "this" {
 
 resource "aws_subnet" "public" {
   count      = length(var.public_subnets.cidrs)
-  vpc_id     = aws_vpc.this.id
+  vpc_id     = aws_vpc.koo-blog.id
   cidr_block = var.public_subnets.cidrs[count.index]
 
   map_public_ip_on_launch = true
@@ -23,7 +23,7 @@ resource "aws_subnet" "public" {
 
 resource "aws_subnet" "private" {
   count      = length(var.private_subnets.cidrs)
-  vpc_id     = aws_vpc.this.id
+  vpc_id     = aws_vpc.koo-blog.id
   cidr_block = var.private_subnets.cidrs[count.index]
 
   availability_zone = var.private_subnets.azs[count.index]
@@ -36,7 +36,7 @@ resource "aws_subnet" "private" {
 
 resource "aws_internet_gateway" "igw" {
   count  = length(var.public_subnets.cidrs) == 0 ? 0 : 1
-  vpc_id = aws_vpc.this.id
+  vpc_id = aws_vpc.koo-blog.id
 
   tags = {
     Name      = "${var.vpc_name}-igw"

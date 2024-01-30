@@ -1,6 +1,6 @@
 resource "aws_route_table" "public" {
   count  = length(var.public_subnets.cidrs) == 0 ? 0 : 1
-  vpc_id = aws_vpc.this.id
+  vpc_id = aws_vpc.koo-blog.id
 
   tags = {
     Name      = "${var.vpc_name}-public-rt"
@@ -10,7 +10,7 @@ resource "aws_route_table" "public" {
 
 resource "aws_route_table" "private" {
   count  = length(var.private_subnets.cidrs) == 0 ? 0 : 1
-  vpc_id = aws_vpc.this.id
+  vpc_id = aws_vpc.koo-blog.id
 
   tags = {
     Name      = "${var.vpc_name}-private-rt"

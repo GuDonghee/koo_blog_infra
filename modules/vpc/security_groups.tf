@@ -2,7 +2,7 @@ resource "aws_security_group" "application" {
 
   description = "Access for the EC2 Application Server"
   name        = "${var.vpc_name}-application-security"
-  vpc_id      = aws_vpc.this.id
+  vpc_id      = aws_vpc.koo-blog.id
 
   egress {
     from_port   = 0

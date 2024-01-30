@@ -1,6 +1,6 @@
 output "vpc_id" {
   description = "VPC의 ID"
-  value       = aws_vpc.this.id
+  value       = aws_vpc.koo-blog.id
 }
 
 output "application_sg_id" {
