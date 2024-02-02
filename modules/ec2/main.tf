@@ -1,8 +1,33 @@
+data "aws_ami" "ubuntu" {
+  most_recent = true
+
+  filter {
+    name   = "name"
+    values = [var.aws_ami]
+  }
+
+  owners = ["amazon"]
+}
+
+resource "aws_instance" "application" {
+  ami           = data.aws_ami.ubuntu.id
+  instance_type = var.instance_type
+  subnet_id     = var.subnet_id
+
+  vpc_security_group_ids = [
+    aws_security_group.application.id
+  ]
+
+  tags = {
+    Name = "${var.vpc_name}-application"
+  }
+}
+
 resource "aws_security_group" "application" {
 
   description = "Access for the EC2 Application Server"
   name        = "${var.vpc_name}-application-security"
-  vpc_id      = aws_vpc.koo-blog.id
+  vpc_id      = var.vpc_id
 
   egress {
     from_port   = 0

@@ -3,9 +3,9 @@ output "vpc_id" {
   value       = aws_vpc.koo-blog.id
 }
 
-output "application_sg_id" {
-  description = "어플리케이션 서버를 위한 보안그룹 ID"
-  value       = aws_security_group.application.id
+output "public_subnet_ids" {
+  description = "퍼블릭 서브넷 아이디의 목록"
+  value       = try(aws_subnet.public.*.id, null)
 }
 
 output "private_subnet_ids" {

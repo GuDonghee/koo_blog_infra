@@ -5,7 +5,7 @@ module "koo-blog-rds" {
   vpc_id             = module.vpc.vpc_id
   vpc_name           = local.vpc_name
   private_subnet_ids = module.vpc.private_subnet_ids
-  application_sg_id  = module.vpc.application_sg_id
+  application_sg_id  = module.ec2.application_sg_id
 
   rds_instance = {
     identifier              = "koo-blog-rds"
