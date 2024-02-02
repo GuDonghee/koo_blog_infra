@@ -42,12 +42,15 @@ resource "aws_db_instance" "rds" {
   engine                  = var.rds_instance.engine
   engine_version          = var.rds_instance.engine_version
   instance_class          = var.rds_instance.instance_class
-  db_subnet_group_name    = aws_db_subnet_group.subnet_group.name
   username                = var.rds_instance.username
   password                = var.rds_instance.password
   backup_retention_period = var.rds_instance.backup_retention_period
   multi_az                = var.rds_instance.multi_az
   skip_final_snapshot     = var.rds_instance.skip_final_snapshot
+  db_subnet_group_name    = aws_db_subnet_group.subnet_group.name
+  vpc_security_group_ids  = [
+    aws_security_group.rds.id
+  ]
 
   tags = {
     Name      = var.rds_instance.identifier
