@@ -9,10 +9,16 @@ data "aws_ami" "ubuntu" {
   owners = ["amazon"]
 }
 
+data "aws_key_pair" "application_session" {
+  key_name = "koo-blog-key"
+  include_public_key = true
+}
+
 resource "aws_instance" "application" {
   ami           = data.aws_ami.ubuntu.id
   instance_type = var.instance_type
   subnet_id     = var.subnet_id
+  key_name = data.aws_key_pair.application_session.key_name
 
   vpc_security_group_ids = [
     aws_security_group.application.id
@@ -21,6 +27,11 @@ resource "aws_instance" "application" {
   tags = {
     Name = "${var.vpc_name}-application"
   }
+}
+
+resource "aws_eip" "application" {
+  domain = "vpc"
+  instance = aws_instance.application.id
 }
 
 resource "aws_security_group" "application" {
