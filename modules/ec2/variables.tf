@@ -13,9 +13,9 @@ variable "vpc_id" {
   type        = string
 }
 
-variable "subnet_id" {
+variable "subnet_ids" {
   description = "Application EC2 인스턴스를 실행 할 서브넷 ID 입니다."
-  type        = string
+  type        = list(string)
 }
 
 variable "instance_type" {

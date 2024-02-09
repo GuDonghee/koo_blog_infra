@@ -12,8 +12,14 @@ locals {
   vpc_cidr       = "10.0.0.0/16"
   vpc_name       = "koo-blog"
   public_subnets = {
-    cidrs = ["10.0.1.0/24"]
-    azs   = ["ap-northeast-2a"]
+    cidrs = [
+      "10.0.1.0/24",
+      "10.0.4.0/24"
+    ]
+    azs = [
+      "ap-northeast-2c",
+      "ap-northeast-2a"
+    ]
   }
   private_subnets = {
     cidrs = [
