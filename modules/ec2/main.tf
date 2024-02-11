@@ -51,6 +51,20 @@ resource "aws_security_group" "application" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
+  ingress {
+    from_port   = 80
+    protocol    = "tcp"
+    to_port     = 80
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    from_port   = 8080
+    protocol    = "tcp"
+    to_port     = 8080
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
   tags = {
     Name      = "${var.vpc_name}-application-private-security"
     ManagedBy = "Terraform"
