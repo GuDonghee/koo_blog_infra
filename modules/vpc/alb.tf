@@ -34,6 +34,13 @@ resource "aws_security_group" "alb" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
+  ingress {
+    from_port   = 80
+    protocol    = "tcp"
+    to_port     = 80
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
   tags = {
     Name      = "${var.vpc_name}-alb-security"
     ManagedBy = "Terraform"
@@ -43,14 +50,13 @@ resource "aws_security_group" "alb" {
 resource "aws_lb_target_group" "alb" {
 
   name        = "${var.vpc_name}-alb-target-group"
-  port        = "80"
+  port        = "8080"
   protocol    = "HTTP"
-  target_type = "ip"
   vpc_id      = aws_vpc.koo-blog.id
 
   health_check {
     path                = "/"
-    matcher             = "200-299"
+    matcher             = "400-499"
     unhealthy_threshold = 10
   }
 
@@ -58,6 +64,13 @@ resource "aws_lb_target_group" "alb" {
     Name      = "${var.vpc_name}-alb-target-group"
     ManagedBy = "Terraform"
   }
+}
+
+resource "aws_lb_target_group_attachment" "alb" {
+  count            = length(var.application_ids)
+  target_group_arn = aws_lb_target_group.alb.arn
+  target_id        = var.application_ids[count.index]
+  port             = 8080
 }
 
 resource "aws_lb_listener" "http" {
@@ -83,7 +96,7 @@ resource "aws_lb_listener" "http" {
 
 resource "aws_lb_listener_rule" "http" {
   listener_arn = aws_lb_listener.http.arn
-  priority = 1
+  priority     = 1
 
   action {
     type             = "forward"
@@ -92,7 +105,7 @@ resource "aws_lb_listener_rule" "http" {
 
   condition {
     path_pattern {
-      values = ["/"]
+      values = ["*"]
     }
   }
 

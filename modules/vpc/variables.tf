@@ -19,3 +19,8 @@ variable "private_subnets" {
   type        = map(list(string))
   default     = {}
 }
+
+variable "application_ids" {
+  description = "Application EC2 인스턴스를 실행 할 서브넷 ID 입니다."
+  type        = list(string)
+}
